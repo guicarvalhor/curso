@@ -1,0 +1,65 @@
+<!-- <ul class="list-buttom">
+    ngfor para capturar os usuários da lista do array de usuários 
+    <li *ngFor="let user of users">
+      <button  [routerLink]="'/users/'+ user" class="btn btn-primary">{{ user }}</button>
+
+        <button [queryParams]="{
+            username: user
+        }"
+                [routerLink]="'/users/details'"
+                class="btn btn-primary">
+            {{ user }}
+        </button>
+    </li>
+</ul>-->
+<form [formGroup]="userForms" class="mb-3">
+    <div class="row">
+        <div class="form-group col-md-6">
+            <label for="nome">Nome:</label>
+            <input [class.is-invalid]="userForms.get('nome')?.errors && userForms.get('nome')?.touched"
+                   class="form-control is-invalid"
+                   formControlName="nome"
+                   id="nome"
+                   type="text" />
+            <div *ngIf="userForms.get('nome')?.hasError('required')"
+                 class="invalid-feedback">
+                O campo nome é obrigatório.
+            </div>
+            <div *ngIf="userForms.get('nome')?.hasError('maxlength')"
+                 class="invalid-feedback">
+                O nome não pode ser maior que 250 caracteres.
+            </div>
+        </div>
+
+        <div class="form-group col-md-3">
+            <label for="idade">Idade:</label>
+            <input [class.is-invalid]="userForms.get('idade')?.errors && userForms.get('idade')?.touched"
+                   class="form-control"
+                   formControlName="idade"
+                   id="idade"
+                   type="number" />
+            <div *ngIf="userForms.get('idade')?.hasError('required')"
+                 class="invalid-feedback">
+                A idade é obrigatória.
+            </div>
+            <div *ngIf="userForms.get('idade')?.hasError('min') || userForms.get('idade')?.hasError('max')"
+                 class="invalid-feedback">
+                A idade deve ser entre 12-110 anos.
+            </div>
+        </div>
+    </div>
+    <button [disabled]="!userForms.valid" (click)="SubmitForm()" class="btn btn-success mt-3">Incluir</button>
+</form>
+
+<div class="row">
+    <app-user-card (userInfoEmitter)="infoUserSelecionado($event)"
+                   [user]="user"
+                   *ngFor="let user of users"
+                   class="col-md-3 mb-3">
+    </app-user-card>
+</div>
+<div *ngIf="userSelecionado" class="mt-3 border col-md p-3">
+    <h2>Usuário selecionado:</h2>
+    <p>Nome: {{userSelecionado?.nome}}</p>
+    <p>Idade: {{userSelecionado?.idade}}</p>
+</div>
