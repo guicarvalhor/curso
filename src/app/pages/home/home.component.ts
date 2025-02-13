@@ -1,7 +1,8 @@
-import { Component, DoCheck, OnDestroy, OnInit } from '@angular/core';
+import { Component, DoCheck, Input, OnDestroy, OnInit } from '@angular/core';
 import { UserService } from '../../services/user.service';
 import { User } from '../../models/user';
 import { UserGit } from '../../models/userGit';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-home',
@@ -10,19 +11,21 @@ import { UserGit } from '../../models/userGit';
   templateUrl: './home.component.html',
   styleUrl: './home.component.css',
 })
-export class HomeComponent implements OnInit {
-
+export class HomeComponent {
   user: UserGit | undefined;
-  constructor(private userService: UserService) {}
+  username: string = '';
+
+  constructor(private userService: UserService, private toastr: ToastrService ) {}
 
   getGitUser() {
-    this.userService.getGitUser('facebook').subscribe((response: UserGit) => {
-      this.user = response;
-    });
-  }
-
-  ngOnInit(): void {
-    this.getGitUser();
+    this.userService.getGitUser(this.username).subscribe(
+      (response: UserGit) => {
+        this.user = response;
+      },
+      (error) => {
+        this.toastr.error(error.error.message);
+      }
+    );
   }
 
   // num: any;

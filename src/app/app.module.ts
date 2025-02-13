@@ -11,8 +11,10 @@ import { UsersComponent } from './pages/users/users.component';
 import { CreateComponent } from './pages/users/create/create.component';
 import { UserComponent } from './pages/user/user.component';
 import { UserCardComponent } from './components/user-card/user-card.component';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { ToastrModule } from 'ngx-toastr';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 
 @NgModule({
@@ -28,10 +30,13 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
     UserCardComponent,
   ],
   imports: [
+    BrowserAnimationsModule,
     BrowserModule,
     AppRoutingModule, 
     ReactiveFormsModule, 
-    HttpClientModule
+    HttpClientModule,
+    FormsModule,
+    ToastrModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent]
